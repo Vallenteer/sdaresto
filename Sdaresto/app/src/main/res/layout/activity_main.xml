@@ -14,7 +14,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Table : "
-        android:id="@+id/TitleTable"/>
+        android:id="@+id/TitleTable"
+        android:capitalize="characters"
+        android:textSize="24sp" />
 
     <ListView
         android:layout_width="match_parent"
