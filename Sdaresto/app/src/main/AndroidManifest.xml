@@ -16,7 +16,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Menu" />
-        <activity android:name=".order"></activity>
+        <activity android:name=".order" />
+        <activity android:name=".data_pesanan"></activity>
     </application>
 
 </manifest>
