@@ -10,6 +10,7 @@ import android.widget.ListView;
 public class Menu extends AppCompatActivity {
     ListView list;
     public static int id_menu;
+    public static String nama_menu;
     String[] web={
             "Sushi Salmon",
             "Sushi Tuna",
@@ -38,6 +39,7 @@ public class Menu extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 id_menu=position;
+                nama_menu=web[position];
                 Intent intent= new Intent(Menu.this,data_pesanan.class);
                 startActivity(intent);
 

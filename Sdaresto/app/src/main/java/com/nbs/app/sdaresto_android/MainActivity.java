@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     ListView list;
     String[] web={
@@ -17,6 +20,10 @@ public class MainActivity extends AppCompatActivity {
             "Meja 5"
     };
     public static int table_number;
+    public static List Menu_pesanan = new ArrayList();
+    public static List Jumlah_pesanan = new ArrayList();
+    public static List pesanan_khusus = new ArrayList();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
