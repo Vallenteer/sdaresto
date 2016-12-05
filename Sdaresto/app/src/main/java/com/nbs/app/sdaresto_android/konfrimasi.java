@@ -47,7 +47,7 @@ public class konfrimasi extends AppCompatActivity {
                         "Jumlah : "+Jumlah_Pesanan+"\n"+
                         "Pesanan Khusus : "+Pesan_Khusus+"\n"+
                        "\n -----------------------------------";
-                pesanan+=String.valueOf(MainActivity.table_number) + Id_Menu  + Jumlah_Pesanan + Pesan_Khusus;
+                pesanan+="$id_menu="+Id_Menu+"$jumlah_pesanan="+Jumlah_Pesanan+"$pesanan_khusus="+Pesan_Khusus+"$no_meja="+String.valueOf(MainActivity.table_number)+";";
             }
        }
         daftar_pesanan.setText(list_pesanan);
