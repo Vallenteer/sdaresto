@@ -18,8 +18,19 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/lv_Menu"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/TitleMenu"
-        android:id="@+id/lv_Menu" />
+        android:layout_marginBottom="35dp" />
+
+    <Button
+        android:text="Konfrimasi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:id="@+id/btn_konfrimasiPesanan"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="konfrimasiPesanan" />
 </RelativeLayout>
