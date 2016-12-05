@@ -58,8 +58,8 @@ public class konfrimasi extends AppCompatActivity {
                 if(MainActivity.Menu_pesanan.size()>=1)
                 {
                     // pesan_task
+                    new pesan_task().execute();
 
-                    //
                     MainActivity.id_menu_pesanan.clear();
                     MainActivity.Menu_pesanan.clear();
                     MainActivity.Jumlah_pesanan.clear();
@@ -96,7 +96,7 @@ public class konfrimasi extends AppCompatActivity {
             activity = params[0];
 
             try {
-                url = new URL("phpnya nanti masukin disini");
+                url = new URL("http://sdaresto.cloudapp.net/order.php");
                 HttpsURLConnection url_connection = (HttpsURLConnection) url.openConnection();
 
                 url_connection.setRequestMethod("POST");
@@ -107,7 +107,7 @@ public class konfrimasi extends AppCompatActivity {
                 StringBuilder sb = new StringBuilder(pesanan);
                 String order = sb.toString();
 
-                String POST="server_auth=YoYoCampusSuperSecretPassword"+order;
+                String POST=order;
 
                 OutputStream out = url_connection.getOutputStream();
                 out.write(POST.getBytes());
