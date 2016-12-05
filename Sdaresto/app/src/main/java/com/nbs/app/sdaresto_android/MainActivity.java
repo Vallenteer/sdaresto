@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     ListView list;
@@ -20,16 +19,20 @@ public class MainActivity extends AppCompatActivity {
             "Meja 5"
     };
     public static int table_number;
-    public static List Menu_pesanan = new ArrayList();
-    public static List Jumlah_pesanan = new ArrayList();
-    public static List pesanan_khusus = new ArrayList();
+    public static ArrayList<String> id_menu_pesanan = new ArrayList<String>();
+    public static ArrayList<String> Menu_pesanan = new ArrayList<String>();
+    public static ArrayList<String> Jumlah_pesanan = new ArrayList<String>();
+    public static ArrayList<String> pesanan_khusus = new ArrayList<String>();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        id_menu_pesanan.clear();
+        Menu_pesanan.clear();
+        Jumlah_pesanan.clear();
+        pesanan_khusus.clear();
         ListViewHandlerTable adapter = new ListViewHandlerTable(MainActivity.this,web);
         list=(ListView) findViewById(R.id.lv_table);
         list.setAdapter(adapter);

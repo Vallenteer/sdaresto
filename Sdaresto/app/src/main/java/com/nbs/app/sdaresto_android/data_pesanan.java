@@ -34,8 +34,8 @@ public class data_pesanan extends AppCompatActivity {
                     Log.d("hahahahah","Jumlah Pesanan 0");
                 }
                 else{
-                    MainActivity.Jumlah_pesanan.add(et_jumlah_pesanan.toString());
-                    Log.d("Jumlah Pesanan",et_jumlah_pesanan.toString());
+                    MainActivity.Jumlah_pesanan.add(et_jumlah_pesanan.getText().toString());
+                    Log.d("Jumlah Pesanan",et_jumlah_pesanan.getText().toString());
                 }
                 if(et_pesanan_khusus.getText().toString().equals(""))
                 {
@@ -44,9 +44,11 @@ public class data_pesanan extends AppCompatActivity {
                 }
                 else
                 {
-                    MainActivity.pesanan_khusus.add(et_pesanan_khusus.toString());
-                    Log.d("Pesanan Khusus",et_pesanan_khusus.toString());
+                    MainActivity.pesanan_khusus.add(et_pesanan_khusus.getText().toString());
+                    Log.d("Pesanan Khusus",et_pesanan_khusus.getText().toString());
                 }
+                MainActivity.Menu_pesanan.add(Menu.nama_menu.toString());
+                MainActivity.id_menu_pesanan.add(String.valueOf(Menu.id_menu));
                 finish();
 
             }
