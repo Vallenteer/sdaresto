@@ -1,10 +1,8 @@
 package com.nbs.app.sdaresto_android;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,9 +13,8 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
 
 public class konfrimasi extends AppCompatActivity {
 
@@ -25,6 +22,7 @@ public class konfrimasi extends AppCompatActivity {
     Button btn_pesan;
     String list_pesanan;
     public String pesanan;
+    Toast toast;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +45,7 @@ public class konfrimasi extends AppCompatActivity {
                         "Jumlah : "+Jumlah_Pesanan+"\n"+
                         "Pesanan Khusus : "+Pesan_Khusus+"\n"+
                        "\n -----------------------------------";
-                pesanan+="$id_menu="+Id_Menu+"$jumlah_pesanan="+Jumlah_Pesanan+"$pesanan_khusus="+Pesan_Khusus+"$no_meja="+String.valueOf(MainActivity.table_number)+";";
+                pesanan+="?id_menu="+Id_Menu+"&jumlah_pesanan="+Jumlah_Pesanan+"&pesanan_khusus="+Pesan_Khusus+"&no_meja="+String.valueOf(MainActivity.table_number);
             }
        }
         daftar_pesanan.setText(list_pesanan);
@@ -82,32 +80,38 @@ public class konfrimasi extends AppCompatActivity {
 
 
     }
+    public void showResult (String st) { //"Toast toast" is declared in the class
+        try {
+            toast.getView().isShown();     // true if visible
+            toast.setText(st);
+        } catch (Exception e) {         // invisible if exception
+            toast = Toast.makeText(this, st, Toast.LENGTH_SHORT);
+        }
+        toast.show();
+    }
 
-    public class pesan_task extends AsyncTask<Activity, Integer, JSONObject>
-    {
-        Activity activity;
+    private class pesan_task extends AsyncTask<Void, Void, JSONObject> {
 
         @Override
-        protected JSONObject doInBackground(Activity... params)
-        {
+        protected JSONObject doInBackground(Void... params) {
             URL url;
-            String conn_string_result="";
-
-            activity = params[0];
+            JSONObject json_conn_result = new JSONObject();
+            String json_str = "";
 
             try {
                 url = new URL("http://sdaresto.cloudapp.net/order.php");
-                HttpsURLConnection url_connection = (HttpsURLConnection) url.openConnection();
+                HttpURLConnection url_connection = (HttpURLConnection) url.openConnection();
 
                 url_connection.setRequestMethod("POST");
                 url_connection.setDoInput(true);
                 url_connection.setDoOutput(true);
 
+                //Di sini tambahin first_name, last_name, etc.
+                //Pemisahnya pakai tanda &
+                //Disarankan pake cara lain buat gabung2innya, Kelvin waktu itu kayaknya ada nemu
+                String daftar = pesanan   ;
 
-                StringBuilder sb = new StringBuilder(pesanan);
-                String order = sb.toString();
-
-                String POST=order;
+                String POST = daftar;
 
                 OutputStream out = url_connection.getOutputStream();
                 out.write(POST.getBytes());
@@ -118,38 +122,54 @@ public class konfrimasi extends AppCompatActivity {
                 StringBuilder string_builder = new StringBuilder();
 
 
-                int byte_read;
+                int byte_read ;
 
-                while((byte_read = in.read()) != -1){
+                while((byte_read = in.read())!=-1){
                     string_builder.append((char)byte_read);
                 }
 
-                conn_string_result = new String(string_builder);
+                json_str= new String(string_builder);
 
-            } catch (Exception  e)
-            {e.printStackTrace();}
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-            JSONObject connection_json=new JSONObject();
-
-            try{
-                connection_json= new JSONObject(conn_string_result);
-            }catch (JSONException e){e.printStackTrace();
-                Log.e("INVALID JSON GOT", conn_string_result);}
-            Log.d("JSON STRING LOGIN_task", connection_json.toString());
-            return connection_json;
+            //create JSONObject from the string
+            try
+            {
+                json_conn_result = new JSONObject(json_str);
+            }
+            catch (JSONException ex)
+            {
+                ex.printStackTrace();
+            }
+            return json_conn_result;
         }
 
         @Override
-        protected void onPostExecute(JSONObject result)
-        {
+        protected void onPostExecute(JSONObject result) {
+
+
+            //ambil pesan
+            Integer success = 0;
+            String message = "";
+            String notif_result="";
+
 
             try {
-                JSONObject json_object = result.getJSONObject("user_info");
+                success = result.getInt("success");
+                message = result.getString("failreason");
+            }catch (JSONException e){e.printStackTrace();}
+            if(success==1)
+            {
+                finish();
             }
-            catch (JSONException e) {e.printStackTrace();}
+
+            showResult(message);
+
+
 
         }
 
     }
-
 }
