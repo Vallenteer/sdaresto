@@ -29,17 +29,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        id_menu_pesanan.clear();
-        Menu_pesanan.clear();
-        Jumlah_pesanan.clear();
-        pesanan_khusus.clear();
         ListViewHandlerTable adapter = new ListViewHandlerTable(MainActivity.this,web);
         list=(ListView) findViewById(R.id.lv_table);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                table_number=position;
+                table_number=position+1;
+                //menghilangkan cache
+                id_menu_pesanan.clear();
+                Menu_pesanan.clear();
+                Jumlah_pesanan.clear();
+                pesanan_khusus.clear();
                 Intent intent = new Intent(MainActivity.this, Menu.class);
                 startActivity(intent);
 

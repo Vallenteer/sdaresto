@@ -6,8 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class Menu extends AppCompatActivity {
+    TextView table_num;
     ListView list;
     public static int id_menu;
     public static String nama_menu;
@@ -30,7 +32,8 @@ public class Menu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-
+        table_num= (TextView) findViewById(R.id.TitleMenu);
+        table_num.setText("Meja " +String.valueOf(MainActivity.table_number)+"\n Menu :");
         ListViewHandlerMenu adapter = new ListViewHandlerMenu(Menu.this,web,harga);
         list=(ListView) findViewById(R.id.lv_Menu);
         list.setItemsCanFocus(true);
