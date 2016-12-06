@@ -42,7 +42,7 @@ public class Menu extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                id_menu=position;
+                id_menu=position+1;
                 nama_menu=web[position];
                 Intent intent= new Intent(Menu.this,data_pesanan.class);
                 startActivity(intent);

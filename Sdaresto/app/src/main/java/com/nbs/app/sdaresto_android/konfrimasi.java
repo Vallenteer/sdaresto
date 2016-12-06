@@ -15,13 +15,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class konfrimasi extends AppCompatActivity {
 
     TextView daftar_pesanan ;
     Button btn_pesan;
     String list_pesanan;
-    public String pesanan;
+    public ArrayList<String> pesanan = new ArrayList<String>();
     Toast toast;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,19 +34,19 @@ public class konfrimasi extends AppCompatActivity {
             list_pesanan="Masih Belum ada Pesanan";
         else
         {
-            list_pesanan="";
-            pesanan="";
+            list_pesanan="Meja " + String.valueOf(MainActivity.table_number);
+
             for(int i=0;i<MainActivity.Menu_pesanan.size();i++)
             {
                 String Id_Menu = MainActivity.id_menu_pesanan.get(i);
                 String Nama_Pesanan = MainActivity.Menu_pesanan.get(i);
                 String Jumlah_Pesanan = MainActivity.Jumlah_pesanan.get(i);
                 String Pesan_Khusus = MainActivity.pesanan_khusus.get(i);
-                list_pesanan += "\n\nPesanan : "+Nama_Pesanan+"\n"+
+                list_pesanan += "\n\nPesanan : "+Nama_Pesanan+"\n"+ //nama_pesanan
                         "Jumlah : "+Jumlah_Pesanan+"\n"+
                         "Pesanan Khusus : "+Pesan_Khusus+"\n"+
                        "\n -----------------------------------";
-                pesanan+="?id_menu="+Id_Menu+"&jumlah_pesanan="+Jumlah_Pesanan+"&pesanan_khusus="+Pesan_Khusus+"&no_meja="+String.valueOf(MainActivity.table_number);
+                pesanan.add("?id_menu="+Id_Menu+"&jumlah_pesanan="+Jumlah_Pesanan+"&pesanan_khusus="+Pesan_Khusus+"&no_meja="+String.valueOf(MainActivity.table_number));
             }
        }
         daftar_pesanan.setText(list_pesanan);
@@ -55,8 +56,9 @@ public class konfrimasi extends AppCompatActivity {
             public void onClick(View v) {
                 if(MainActivity.Menu_pesanan.size()>=1)
                 {
-                    // pesan_task
-                    new pesan_task().execute();
+                    for(int i=0;i<pesanan.size();i++) {// pesan_task
+                        new pesan_task().execute(pesanan.get(i).toString());
+                    }
 
                     MainActivity.id_menu_pesanan.clear();
                     MainActivity.Menu_pesanan.clear();
@@ -90,28 +92,29 @@ public class konfrimasi extends AppCompatActivity {
         toast.show();
     }
 
-    private class pesan_task extends AsyncTask<Void, Void, JSONObject> {
+    private class pesan_task extends AsyncTask<String, Void, JSONObject> {
 
         @Override
-        protected JSONObject doInBackground(Void... params) {
+        protected JSONObject doInBackground(String... params) {
             URL url;
             JSONObject json_conn_result = new JSONObject();
             String json_str = "";
+            String order=params[0];
 
             try {
-                url = new URL("http://sdaresto.cloudapp.net/order.php");
+                url = new URL("http://sdaresto.cloudapp.net/order.php" + order);
                 HttpURLConnection url_connection = (HttpURLConnection) url.openConnection();
 
-                url_connection.setRequestMethod("POST");
+                url_connection.setRequestMethod("GET");
                 url_connection.setDoInput(true);
                 url_connection.setDoOutput(true);
 
                 //Di sini tambahin first_name, last_name, etc.
                 //Pemisahnya pakai tanda &
                 //Disarankan pake cara lain buat gabung2innya, Kelvin waktu itu kayaknya ada nemu
-                String daftar = pesanan   ;
+                //String daftar = pesanan   ;
 
-                String POST = daftar;
+                String POST ="";
 
                 OutputStream out = url_connection.getOutputStream();
                 out.write(POST.getBytes());
